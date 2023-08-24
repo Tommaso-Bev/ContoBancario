@@ -8,7 +8,6 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <ctime>
 
 #include "Transazione.h"
 
@@ -17,11 +16,11 @@ using namespace std;
 class Conto {
 public:
     //costruttore del conto
-    Conto(string name, int saldo);
+    Conto(string name, int saldo = 0);
 
-    void depositare(int valoreDeposito, string &descrizione);
+    void depositare(int valoreDeposito, const string &descrizione);
 
-    bool ritirare(int quantitaRitiro, string &descrizione);
+    bool ritirare(int quantitaRitiro, const string &descrizione);
 
     //metodi getter della classe Conto
     const string &getName() const;

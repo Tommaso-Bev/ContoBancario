@@ -6,7 +6,7 @@
 
 #include <utility>
 
-Conto::Conto(string name, int saldo = 0) : name(std::move(name)), saldo(saldo) {}
+Conto::Conto(string name, int saldo) : name(std::move(name)), saldo(saldo) {}
 
 const string &Conto::getName() const {
     return name;
@@ -16,7 +16,7 @@ int Conto::getSaldo() const {
     return saldo;
 }
 
-void Conto::depositare(int valoreDeposito, string &descrizione) {
+void Conto::depositare(int valoreDeposito, const string &descrizione) {
     saldo += valoreDeposito;
     time_t now = time(nullptr);
     tm *localTime = localtime(&now);
@@ -28,7 +28,7 @@ void Conto::depositare(int valoreDeposito, string &descrizione) {
                                      descrizione, "deposito"));
 }
 
-bool Conto::ritirare(int quantitaRitiro, string &descrizione) {
+bool Conto::ritirare(int quantitaRitiro, const string &descrizione) {
     if (saldo >= quantitaRitiro) {
         saldo -= quantitaRitiro;
         time_t now = time(nullptr);
@@ -39,9 +39,10 @@ bool Conto::ritirare(int quantitaRitiro, string &descrizione) {
                 make_unique<Transazione>(quantitaRitiro, data, make_pair(localTime->tm_hour, localTime->tm_min),
                                          descrizione, "ritiro"));
         return true;
-    } else
+    } else {
         throw (runtime_error("Siamo dispiaciuti, ma la quantità di denaro richiesta non è presente nel conto"));
-
+        return false;
+    }
 }
 
 vector<Transazione> Conto::transazioniDepositate() {
