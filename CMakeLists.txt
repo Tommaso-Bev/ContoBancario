@@ -3,4 +3,4 @@ project(ContoBanca)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(ContoBanca main.cpp)
+add_executable(ContoBanca main.cpp Conto.cpp Conto.h Transazione.cpp Transazione.h)
