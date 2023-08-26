@@ -10,6 +10,7 @@ Utente::Utente(string nome, string cognome, const DataDiNascita &data) : nome(st
 
 Utente::~Utente() {
     salvaInformazioniUtente();
+    leggiInfoUtente();
 }
 
 void Utente::deposita(int contoAttuale, int valoreDeposito, const string &descrizione) {
@@ -49,16 +50,30 @@ void Utente::salvaInformazioniUtente() {
             informazioni << "Deposito avvenuto il: " << transazioniDeposito.getData() << " ";
             informazioni << " alle ore: " << transazioniDeposito.getOra().first << " "
                          << transazioniDeposito.getOra().second << endl;
-            informazioni << "di: " << transazioniDeposito.getValoreTransazione() << "€" << endl;
+            informazioni << "di: " << transazioniDeposito.getValoreTransazione() << " euro" << endl;
             informazioni << "Motivazioni: " << transazioniDeposito.getDescrizione() << endl;
         }
+        informazioni << "***TRANSAZIONI RITIRO***: " << endl;
         for (auto &transazioniRitiro: contiCorrente[numeroConto - 1]->transazioniRitirate()) {
             informazioni << "Ritiro avvenuto il: " << transazioniRitiro.getData() << " ";
             informazioni << " alle ore: " << transazioniRitiro.getOra().first << " "
                          << transazioniRitiro.getOra().second << endl;
-            informazioni << "di: " << transazioniRitiro.getValoreTransazione() << "€" << endl;
+            informazioni << "di: " << transazioniRitiro.getValoreTransazione() << " euro" << endl;
             informazioni << "Motivazioni: " << transazioniRitiro.getDescrizione() << endl;
         }
         numeroConto++;
     }
 }
+
+void Utente::leggiInfoUtente() {
+    ifstream informazioni("informazioni.txt");
+    string info;
+    if (informazioni.is_open()) {
+        while (getline(informazioni, info)) {
+            cout << info << endl;
+        }
+        informazioni.close();
+    }
+
+}
+

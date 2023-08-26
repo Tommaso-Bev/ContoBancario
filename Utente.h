@@ -43,6 +43,9 @@ public:
 
     void salvaInformazioniUtente();
 
+    void leggiInfoUtente();
+
+
 private:
     string nome;
     string cognome;
