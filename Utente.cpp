@@ -83,4 +83,12 @@ void Utente::leggiInfoUtente() {
 
 }
 
+const string &Utente::getNome() const {
+    return nome;
+}
+
+const string &Utente::getCognome() const {
+    return cognome;
+}
+
 

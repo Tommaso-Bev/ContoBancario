@@ -24,6 +24,8 @@ struct DataDiNascita {
         mese = std::move(m);
         anno = std::move(a);
     }
+
+    DataDiNascita();
 };
 
 class Utente {
@@ -47,6 +49,11 @@ public:
 
     void leggiInfoUtente();
 
+    //metodi getter per nome e cognome (utilizzati nell'interfaccia)
+
+    const string &getNome() const;
+
+    const string &getCognome() const;
 
 private:
     string nome;
