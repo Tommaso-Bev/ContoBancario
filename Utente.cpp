@@ -28,6 +28,12 @@ bool Utente::ritira(int contoAttuale, int quantitaRitiro, const string &descrizi
     return true;
 }
 
+bool
+Utente::trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasferimento, const string &descrizione) {
+    ritira(contoAttuale, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
+    deposita(contoDestinazione, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
+}
+
 void Utente::creaConto(const string &nomeConto) {
     contiCorrente.push_back(make_unique<Conto>(nomeConto));
 }
@@ -76,4 +82,5 @@ void Utente::leggiInfoUtente() {
     }
 
 }
+
 

@@ -39,6 +39,8 @@ public:
 
     bool ritira(int contoAttuale, int quantitaRitiro, const string &descrizione);
 
+    bool trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasferimento, const string &descrizione);
+
     void creaConto(const string &nomeConto);
 
     void salvaInformazioniUtente();

@@ -62,3 +62,4 @@ vector<Transazione> Conto::transazioniRitirate() {
     }
     return transazioniRitiro;
 }
+
