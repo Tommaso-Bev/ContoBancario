@@ -4,9 +4,11 @@
 
 #include "Utente.h"
 
-Utente::Utente(string nome, string cognome, const DataDiNascita &data) : nome(std::move(nome)),
-                                                                         cognome(std::move(cognome)),
-                                                                         data(data) {}
+#include <utility>
+
+Utente::Utente(string nome, string cognome, DataDiNascita data) : nome(std::move(nome)),
+                                                                  cognome(std::move(cognome)),
+                                                                  data(std::move(data)) {}
 
 Utente::~Utente() {
     salvaInformazioniUtente();
@@ -30,8 +32,9 @@ bool Utente::ritira(int contoAttuale, int quantitaRitiro, const string &descrizi
 
 bool
 Utente::trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasferimento, const string &descrizione) {
-    ritira(contoAttuale, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
+    bool t = ritira(contoAttuale, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
     deposita(contoDestinazione, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
+    return t;
 }
 
 void Utente::creaConto(const string &nomeConto) {
@@ -90,5 +93,15 @@ const string &Utente::getNome() const {
 const string &Utente::getCognome() const {
     return cognome;
 }
+
+unique_ptr<Conto> Utente::getConto(int numeroConto) {
+    if (numeroConto >= 0 && numeroConto < contiCorrente.size()) {
+        return std::move(contiCorrente[numeroConto]);
+    } else {
+        // Restituisc nullo se il numeroConto non è valido.
+        return nullptr;
+    }
+}
+
 
 

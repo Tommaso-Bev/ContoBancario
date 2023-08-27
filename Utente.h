@@ -25,13 +25,12 @@ struct DataDiNascita {
         anno = std::move(a);
     }
 
-    DataDiNascita();
 };
 
 class Utente {
 public:
 
-    Utente(string nome, string cognome, const DataDiNascita &data);
+    Utente(string nome, string cognome, DataDiNascita data);
 
     //distruttore
     virtual ~Utente();
@@ -54,6 +53,8 @@ public:
     const string &getNome() const;
 
     const string &getCognome() const;
+
+    unique_ptr<Conto> getConto(int numeroConto);
 
 private:
     string nome;
