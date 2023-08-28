@@ -54,7 +54,7 @@ public:
 
     const string &getCognome() const;
 
-    unique_ptr<Conto> getConto(int numeroConto);
+    unique_ptr<Conto> &getConto(int numeroConto);
 
 private:
     string nome;

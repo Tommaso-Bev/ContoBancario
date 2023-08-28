@@ -78,7 +78,7 @@ void Interfaccia::selezionareAzioni() {
                 }
                 case 3: {
                     cout << "selezionare a quale conto trasferire il denaro: ";
-                    int destinazione = -1;
+                    int destinazione = -10;
                     while (destinazione == numeroConto) {
                         destinazione = controlloInputConto();
                     }
@@ -97,6 +97,7 @@ void Interfaccia::selezionareAzioni() {
                     break;
                 }
                 case 5: {
+                    utente->salvaInformazioniUtente();
                     utente->leggiInfoUtente();
                     break;
                 }
@@ -107,17 +108,18 @@ void Interfaccia::selezionareAzioni() {
 }
 
 string Interfaccia::controlloInputStringhe(int numeroMinimoCaratteri, int numeroMassimoCaratteri) {
-    string input;
+    string input = "default";
     try {
         cin >> input;
-        getline(cin, input);
         if (input.length() > numeroMassimoCaratteri or input.length() < numeroMinimoCaratteri)
             throw out_of_range("string inserita non valida");
+        return input;
     }
     catch (const out_of_range &e) {
         cerr << e.what() << endl;
+        return "NO";
     }
-    return input;
+
 }
 
 DataDiNascita Interfaccia::controlloInputData() {

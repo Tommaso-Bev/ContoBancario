@@ -38,9 +38,8 @@ Utente::trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasfer
 }
 
 void Utente::creaConto(const string &nomeConto) {
-    contiCorrente.push_back(make_unique<Conto>(nomeConto));
+    contiCorrente.push_back(std::make_unique<Conto>(nomeConto));
 }
-
 
 void Utente::salvaInformazioniUtente() {
     ofstream informazioni("informazioni.txt");
@@ -94,14 +93,16 @@ const string &Utente::getCognome() const {
     return cognome;
 }
 
-unique_ptr<Conto> Utente::getConto(int numeroConto) {
+unique_ptr<Conto> &Utente::getConto(int numeroConto) {
     if (numeroConto >= 0 && numeroConto < contiCorrente.size()) {
-        return std::move(contiCorrente[numeroConto]);
+        return contiCorrente[numeroConto];
     } else {
-        // Restituisc nullo se il numeroConto non è valido.
-        return nullptr;
+        // Restituisci un riferimento nullo se il numeroConto non è valido.
+        static unique_ptr<Conto> null_conto;
+        return null_conto;
     }
 }
+
 
 
 
