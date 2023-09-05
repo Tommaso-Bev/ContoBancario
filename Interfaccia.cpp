@@ -78,9 +78,10 @@ void Interfaccia::selezionareAzioni() {
                 }
                 case 3: {
                     cout << "selezionare a quale conto trasferire il denaro: ";
-                    int destinazione = -10;
+                    int destinazione = numeroConto;
                     while (destinazione == numeroConto) {
                         destinazione = controlloInputConto();
+
                     }
                     cout << "immettere la quantità di denaro da trasferire al secondo conto: ";
                     int quant;
