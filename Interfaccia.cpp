@@ -119,7 +119,7 @@ void Interfaccia::selezionareAzioni() {
 
 
         } else {
-            cout << "Sono accettati solo i numeri!!!" << endl;
+            cout << "Sono accettati solo numeri!!!" << endl;
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
@@ -157,13 +157,21 @@ DataDiNascita Interfaccia::controlloInputData() {
 }
 
 int Interfaccia::controlloInputConto() {
-    int controllo;
     while (true) {
-        cin >> controllo;
-        if (utente->getConto(controllo))
-            return controllo;
-        else
-            cerr << "Il conto da lei selezionato non esiste!" << endl;
+        int controllo;
+        string input;
+        cin >> input;
+        std::istringstream iss(input);
+        if (iss >> controllo) {
+            if (utente->getConto(controllo))
+                return controllo;
+            else
+                cerr << "Il conto da lei selezionato non esiste!" << endl;
+        } else {
+            cout << "Sono accettati solo numeri!!!" << endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
     }
 }
 
