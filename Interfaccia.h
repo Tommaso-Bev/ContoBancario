@@ -6,6 +6,8 @@
 #define CONTOBANCA_INTERFACCIA_H
 
 #include <iostream>
+#include <sstream>
+#include <limits>
 
 #include "Utente.h"
 

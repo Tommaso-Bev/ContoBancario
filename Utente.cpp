@@ -103,6 +103,10 @@ unique_ptr<Conto> &Utente::getConto(int numeroConto) {
     }
 }
 
+unsigned long long Utente::getNumeroConti() {
+    return contiCorrente.size();
+}
+
 
 
 

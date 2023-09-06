@@ -45,16 +45,16 @@ void Interfaccia::selezionareAzioni() {
         cout << "Per iniziare a fare transazioni devi possedere almeno un conto." << endl;
         creareConto();
     }
-    while (true) {
+    bool loop = true;
+    while (loop) {
         cout << "Selezionare il conto in cui fare transazioni:";
         int numeroConto = controlloInputConto();
         stampaScelte();
+        std::string input;
         int scelta;
-        cin >> scelta;
-        if (scelta == 6) {
-            cout << "Arrivederci.";
-            break;
-        } else {
+        cin >> input;
+        std::istringstream iss(input);
+        if (iss >> scelta) {
             switch (scelta) {
                 case 1: {
                     cout << "immetere la quantità di denaro da depositare sul conto: ";
@@ -77,20 +77,28 @@ void Interfaccia::selezionareAzioni() {
                     break;
                 }
                 case 3: {
-                    cout << "selezionare a quale conto trasferire il denaro: ";
-                    int destinazione = numeroConto;
-                    while (destinazione == numeroConto) {
-                        destinazione = controlloInputConto();
-
+                    cout << utente->getNumeroConti() << endl;
+                    if (utente->getNumeroConti() > 1) {
+                        cout << "selezionare a quale conto trasferire il denaro: ";
+                        int destinazione = numeroConto;
+                        while (destinazione == numeroConto) {
+                            destinazione = controlloInputConto();
+                        }
+                        cout << "immettere la quantità di denaro da trasferire al secondo conto: ";
+                        int quant;
+                        cin >> quant;
+                        string causale;
+                        cout << "scrivere eventuali motivazioni della transazione: ";
+                        cin >> causale;
+                        utente->trasferisci(numeroConto, destinazione, quant, causale);
+                        break;
+                    } else {
+                        cout
+                                << "Non sei in possesso di piu' di due conti, quindi non e' possibile effettuare alcun trasferimento, siamo spiacenti."
+                                << endl;
+                        cout << "Torna appena avrai creato un nuovo conto" << endl;
+                        break;
                     }
-                    cout << "immettere la quantità di denaro da trasferire al secondo conto: ";
-                    int quant;
-                    cin >> quant;
-                    string causale;
-                    cout << "scrivere eventuali motivazioni della transazione: ";
-                    cin >> causale;
-                    utente->trasferisci(numeroConto, destinazione, quant, causale);
-                    break;
                 }
                 case 4: {
                     cout << "Stai per creare un nuovo conto: ";
@@ -102,9 +110,19 @@ void Interfaccia::selezionareAzioni() {
                     utente->leggiInfoUtente();
                     break;
                 }
+                case 6: {
+                    loop = false;
+                    cout << "Arrivederci.";
+                    break;
+                }
             }
-        }
 
+
+        } else {
+            cout << "Sono accettati solo i numeri!!!" << endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
     }
 }
 

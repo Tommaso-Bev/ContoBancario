@@ -56,6 +56,8 @@ public:
 
     unique_ptr<Conto> &getConto(int numeroConto);
 
+    unsigned long long getNumeroConti();
+
 private:
     string nome;
     string cognome;
