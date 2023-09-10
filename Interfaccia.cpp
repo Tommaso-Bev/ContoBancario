@@ -139,14 +139,50 @@ string Interfaccia::controlloInputStringhe(int numeroMinimoCaratteri, int numero
 }
 
 DataDiNascita Interfaccia::controlloInputData() {
-    DataDiNascita input("-1", "-1", "-1");
-    //TODO per ora non faccio alcun tipo di controllo in questo metodo, chiedo solamente di fare l'input delle informazioni
-    cout << "giorno: " << endl;
-    getline(cin, input.giorno);
-    cout << "mese: " << endl;
-    getline(cin, input.mese);
-    cout << "anno: " << endl;
-    getline(cin, input.anno);
+    DataDiNascita input(-1, "-1", -1);
+    while (true) {
+        cout << "anno: " << endl;
+        input.anno = controlloInputQuant();
+        if (input.anno < 0 || input.anno > 2099) {
+            cout << "Hai inserito una data non valida, riprova!" << endl;
+            cin.clear();
+        } else
+            break;
+    }
+    bool loop = true;
+    while (loop) {
+        cout << "mese: " << endl;
+        input.mese = controlloInputStringhe(0, 30);
+        for (const auto &a: mesiValidi) {
+            if (input.mese == a) {
+                loop = false;
+            }
+        }
+        cin.clear();
+    }
+
+    while (true) {
+        cout << "giorno: " << endl;
+        input.giorno = controlloInputQuant();
+        if (input.mese == "settembre" || input.mese == "novembre" || input.mese == "aprile" || input.mese == "giugno") {
+            if (input.giorno < 0 or input.giorno > 30) {
+                cout << "Data non valida, riprova!" << endl;
+                cin.clear();
+            } else break;
+        } else if (input.mese == "febbraio") {
+            if (input.giorno < 0 or input.giorno > 28) {
+                cout << "Data non valida, riprova!" << endl;
+                cin.clear();
+            } else break;
+        } else {
+            if (input.giorno < 0 or input.giorno > 31) {
+                cout << "Data non valida, riprovare!" << endl;
+                cin.clear();
+            } else break;
+        }
+    }
+
+
     return input;
 }
 

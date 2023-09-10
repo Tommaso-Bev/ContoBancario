@@ -15,14 +15,14 @@
 using namespace std;
 
 struct DataDiNascita {
-    string giorno;
+    int giorno;
     string mese;
-    string anno;
+    int anno;
 
-    DataDiNascita(string g, string m, string a) {
-        giorno = std::move(g);
+    DataDiNascita(int g, string m, int a) {
+        giorno = g;
         mese = std::move(m);
-        anno = std::move(a);
+        anno = a;
     }
 
 };

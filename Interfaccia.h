@@ -37,6 +37,10 @@ public:
 
 private:
     unique_ptr<Utente> utente;
+    std::vector<std::string> mesiValidi = {
+            "gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
+            "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"
+    };
 };
 
 
