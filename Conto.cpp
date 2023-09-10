@@ -41,7 +41,6 @@ bool Conto::ritirare(int quantitaRitiro, const string &descrizione) {
         return true;
     } else {
         throw (runtime_error("Siamo dispiaciuti, ma la quantità di denaro richiesta non è presente nel conto"));
-        return false;
     }
 }
 
@@ -57,7 +56,7 @@ vector<Transazione> Conto::transazioniDepositate() {
 vector<Transazione> Conto::transazioniRitirate() {
     std::vector<Transazione> transazioniRitiro;
     for (const auto &it: transazioniPassate) {
-        if (it->getTipoTransazione() == "deposito")
+        if (it->getTipoTransazione() == "ritiro")
             transazioniRitiro.push_back(*it);
     }
     return transazioniRitiro;

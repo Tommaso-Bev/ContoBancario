@@ -57,20 +57,20 @@ void Interfaccia::selezionareAzioni() {
         if (iss >> scelta) {
             switch (scelta) {
                 case 1: {
-                    cout << "immetere la quantità di denaro da depositare sul conto: ";
+                    cout << "immetere la quantità di denaro da depositare sul conto: " << endl;
                     int quant = controlloInputQuant();
                     string causale;
-                    cout << "scrivere eventuali motivazioni della transazione: ";
+                    cout << "scrivere eventuali motivazioni della transazione: " << endl;
                     getline(std::cin, causale);
 
                     utente->deposita(numeroConto, quant, causale);
                     break;
                 }
                 case 2: {
-                    cout << "immettere la quantità di denaro da ritirare dal conto: ";
+                    cout << "immettere la quantità di denaro da ritirare dal conto: " << endl;
                     int quant = controlloInputQuant();
                     string causale;
-                    cout << "scrivere eventuali motivazioni della transazione: ";
+                    cout << "scrivere eventuali motivazioni della transazione: " << endl;
                     getline(std::cin, causale);
                     utente->ritira(numeroConto, quant, causale);
                     break;
@@ -78,15 +78,15 @@ void Interfaccia::selezionareAzioni() {
                 case 3: {
                     cout << utente->getNumeroConti() << endl;
                     if (utente->getNumeroConti() > 1) {
-                        cout << "selezionare a quale conto trasferire il denaro: ";
+                        cout << "selezionare a quale conto trasferire il denaro: " << endl;
                         int destinazione = numeroConto;
                         while (destinazione == numeroConto) {
                             destinazione = controlloInputConto();
                         }
-                        cout << "immettere la quantita' di denaro da trasferire al secondo conto: ";
+                        cout << "immettere la quantita' di denaro da trasferire al secondo conto: " << endl;
                         int quant = controlloInputQuant();
                         string causale;
-                        cout << "scrivere eventuali motivazioni della transazione: ";
+                        cout << "scrivere eventuali motivazioni della transazione: " << endl;
                         getline(std::cin, causale);
                         utente->trasferisci(numeroConto, destinazione, quant, causale);
                         break;
@@ -99,7 +99,7 @@ void Interfaccia::selezionareAzioni() {
                     }
                 }
                 case 4: {
-                    cout << "Stai per creare un nuovo conto: ";
+                    cout << "Stai per creare un nuovo conto: " << endl;
                     creareConto();
                     break;
                 }
@@ -110,7 +110,7 @@ void Interfaccia::selezionareAzioni() {
                 }
                 case 6: {
                     loop = false;
-                    cout << "Arrivederci.";
+                    cout << "Arrivederci." << endl;
                     break;
                 }
             }
@@ -119,7 +119,6 @@ void Interfaccia::selezionareAzioni() {
         } else {
             cout << "Sono accettati solo numeri!!!" << endl;
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }
@@ -160,12 +159,13 @@ int Interfaccia::controlloInputConto() {
         if (iss >> controllo) {
             if (utente->getConto(controllo))
                 return controllo;
-            else
+            else {
                 cout << "Il conto da lei selezionato non esiste!" << endl;
+                std::cin.clear();
+            }
         } else {
             cout << "Sono accettati solo numeri!!!" << endl;
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 
@@ -182,7 +182,6 @@ int Interfaccia::controlloInputQuant() {
         } else {
             cout << "Sono accettati unicamente numeri (e positivi)" << endl;
             cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }
