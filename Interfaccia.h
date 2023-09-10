@@ -24,6 +24,7 @@ public:
     void selezionareAzioni();
 
     //codici di utilità per non fare codice duplicato
+
     void stampaScelte();
 
     string controlloInputStringhe(int numeroMinimoCaratteri, int numeroMassimoCaratteri);
@@ -31,6 +32,8 @@ public:
     DataDiNascita controlloInputData();
 
     int controlloInputConto();
+
+    int controlloInputQuant();
 
 private:
     unique_ptr<Utente> utente;

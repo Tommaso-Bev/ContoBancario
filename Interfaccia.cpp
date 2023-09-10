@@ -8,11 +8,11 @@ void Interfaccia::creareUtente() {
     cout << "Benvenuto nella creazione del profilo" << endl;
     string inputN;
     string inputC;
-    cout << "Inserire il proprio nome: ";
+    cout << "Inserire il proprio nome: " << endl;
     inputN = controlloInputStringhe(0, 30);
-    cout << "Inserire il proprio cognome: ";
+    cout << "Inserire il proprio cognome: " << endl;
     inputC = controlloInputStringhe(0, 40);
-    cout << "Inserire la propria data di nascita: ";
+    cout << "Inserire la propria data di nascita: " << endl;
     DataDiNascita d = controlloInputData();
     utente = make_unique<Utente>(inputN, inputC, d);
 }
@@ -20,8 +20,8 @@ void Interfaccia::creareUtente() {
 void Interfaccia::creareConto() {
     string nomeConto;
     cout << "Hai scelto di creare un nuovo conto" << endl;
-    cout << "Scegli un nome da affidare al conto: " << endl;
-    cin >> nomeConto;
+    cout << "Scegli un nome da affidare al conto:" << endl;
+    getline(std::cin, nomeConto);
     utente->creaConto(nomeConto);
 }
 
@@ -52,27 +52,26 @@ void Interfaccia::selezionareAzioni() {
         stampaScelte();
         std::string input;
         int scelta;
-        cin >> input;
+        getline(cin, input);
         std::istringstream iss(input);
         if (iss >> scelta) {
             switch (scelta) {
                 case 1: {
                     cout << "immetere la quantità di denaro da depositare sul conto: ";
-                    int quant;
-                    cin >> quant;
+                    int quant = controlloInputQuant();
                     string causale;
                     cout << "scrivere eventuali motivazioni della transazione: ";
-                    cin >> causale;
+                    getline(std::cin, causale);
+
                     utente->deposita(numeroConto, quant, causale);
                     break;
                 }
                 case 2: {
                     cout << "immettere la quantità di denaro da ritirare dal conto: ";
-                    int quant;
-                    cin >> quant;
+                    int quant = controlloInputQuant();
                     string causale;
                     cout << "scrivere eventuali motivazioni della transazione: ";
-                    cin >> causale;
+                    getline(std::cin, causale);
                     utente->ritira(numeroConto, quant, causale);
                     break;
                 }
@@ -84,12 +83,11 @@ void Interfaccia::selezionareAzioni() {
                         while (destinazione == numeroConto) {
                             destinazione = controlloInputConto();
                         }
-                        cout << "immettere la quantità di denaro da trasferire al secondo conto: ";
-                        int quant;
-                        cin >> quant;
+                        cout << "immettere la quantita' di denaro da trasferire al secondo conto: ";
+                        int quant = controlloInputQuant();
                         string causale;
                         cout << "scrivere eventuali motivazioni della transazione: ";
-                        cin >> causale;
+                        getline(std::cin, causale);
                         utente->trasferisci(numeroConto, destinazione, quant, causale);
                         break;
                     } else {
@@ -129,7 +127,7 @@ void Interfaccia::selezionareAzioni() {
 string Interfaccia::controlloInputStringhe(int numeroMinimoCaratteri, int numeroMassimoCaratteri) {
     string input = "default";
     try {
-        cin >> input;
+        getline(std::cin, input);
         if (input.length() > numeroMassimoCaratteri or input.length() < numeroMinimoCaratteri)
             throw out_of_range("string inserita non valida");
         return input;
@@ -143,16 +141,13 @@ string Interfaccia::controlloInputStringhe(int numeroMinimoCaratteri, int numero
 
 DataDiNascita Interfaccia::controlloInputData() {
     DataDiNascita input("-1", "-1", "-1");
-    try {
-        //TODO per ora non faccio alcun tipo di controllo in questo metodo, chiedo solamente di fare l'input delle informazioni
-        cout << "giorno: ";
-        cin >> input.giorno;
-        cout << " mese: ";
-        cin >> input.mese;
-        cout << " anno: ";
-        cin >> input.anno;
-    }
-    catch (exception &e) {}
+    //TODO per ora non faccio alcun tipo di controllo in questo metodo, chiedo solamente di fare l'input delle informazioni
+    cout << "giorno: " << endl;
+    getline(cin, input.giorno);
+    cout << "mese: " << endl;
+    getline(cin, input.mese);
+    cout << "anno: " << endl;
+    getline(cin, input.anno);
     return input;
 }
 
@@ -160,16 +155,33 @@ int Interfaccia::controlloInputConto() {
     while (true) {
         int controllo;
         string input;
-        cin >> input;
+        getline(cin, input);
         std::istringstream iss(input);
         if (iss >> controllo) {
             if (utente->getConto(controllo))
                 return controllo;
             else
-                cerr << "Il conto da lei selezionato non esiste!" << endl;
+                cout << "Il conto da lei selezionato non esiste!" << endl;
         } else {
             cout << "Sono accettati solo numeri!!!" << endl;
             std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+
+}
+
+int Interfaccia::controlloInputQuant() {
+    while (true) {
+        int controllo;
+        string input;
+        getline(cin, input);
+        std::istringstream iss(input);
+        if (iss >> controllo and controllo > 0) {
+            return controllo;
+        } else {
+            cout << "Sono accettati unicamente numeri (e positivi)" << endl;
+            cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }

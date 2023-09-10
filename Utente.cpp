@@ -46,7 +46,7 @@ void Utente::salvaInformazioniUtente() {
     informazioni << "INFORMAZIONI RELATIVE ALL'UTENTE: " << nome << " " << cognome << endl;
     informazioni << "NOME: " << nome << endl;
     informazioni << "COGNOME: " << cognome << endl;
-    informazioni << "DATA DI NASCITA: " << data.anno << data.mese << data.giorno << endl;
+    informazioni << "DATA DI NASCITA: " << data.giorno << " " << data.mese << " " << data.anno << endl;
     informazioni << "******CRONOLOGIA SALDO******" << endl;
     int numeroConto = 1;
     for (auto &i: contiCorrente) {
