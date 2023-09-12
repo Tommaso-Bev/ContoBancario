@@ -25,6 +25,8 @@ struct DataDiNascita {
         anno = a;
     }
 
+    DataDiNascita() {}
+
 };
 
 class Utente {

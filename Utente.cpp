@@ -12,28 +12,24 @@ Utente::Utente(string nome, string cognome, DataDiNascita data) : nome(std::move
 
 Utente::~Utente() {
     salvaInformazioniUtente();
-    leggiInfoUtente();
+    //la prossima istruzione la si può mettere per vedere le informazioni degli utenti al momento della distruzione dell'oggetto
+    //leggiInfoUtente();
 }
 
 void Utente::deposita(int contoAttuale, int valoreDeposito, const string &descrizione) {
-    contiCorrente[contoAttuale]->depositare(valoreDeposito, descrizione);
+    if (valoreDeposito > 0)
+        contiCorrente[contoAttuale]->depositare(valoreDeposito, descrizione);
 }
 
 bool Utente::ritira(int contoAttuale, int quantitaRitiro, const string &descrizione) {
-    try {
-        contiCorrente[contoAttuale]->ritirare(quantitaRitiro, descrizione);
-    }
-    catch (runtime_error &errore) {
-        cerr << errore.what() << endl;
-        return false;
-    }
-    return true;
+    return contiCorrente[contoAttuale]->ritirare(quantitaRitiro, descrizione);
 }
 
 bool
 Utente::trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasferimento, const string &descrizione) {
     bool t = ritira(contoAttuale, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
-    deposita(contoDestinazione, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
+    if (t)
+        deposita(contoDestinazione, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
     return t;
 }
 

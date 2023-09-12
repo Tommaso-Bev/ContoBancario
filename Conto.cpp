@@ -17,15 +17,18 @@ int Conto::getSaldo() const {
 }
 
 void Conto::depositare(int valoreDeposito, const string &descrizione) {
-    saldo += valoreDeposito;
-    time_t now = time(nullptr);
-    tm *localTime = localtime(&now);
-    string data =
-            to_string(localTime->tm_year + 1900) + to_string(localTime->tm_mon + 1) + to_string(localTime->tm_mday);
+    if (valoreDeposito > 0) {
+        saldo += valoreDeposito;
+        time_t now = time(nullptr);
+        tm *localTime = localtime(&now);
+        string data =
+                to_string(localTime->tm_year + 1900) + to_string(localTime->tm_mon + 1) + to_string(localTime->tm_mday);
 
-    transazioniPassate.push_back(
-            make_unique<Transazione>(valoreDeposito, data, make_pair(localTime->tm_hour, localTime->tm_min),
-                                     descrizione, "deposito"));
+        transazioniPassate.push_back(
+                make_unique<Transazione>(valoreDeposito, data, make_pair(localTime->tm_hour, localTime->tm_min),
+                                         descrizione, "deposito"));
+    }
+
 }
 
 bool Conto::ritirare(int quantitaRitiro, const string &descrizione) {
@@ -40,7 +43,8 @@ bool Conto::ritirare(int quantitaRitiro, const string &descrizione) {
                                          descrizione, "ritiro"));
         return true;
     } else {
-        throw (runtime_error("Siamo dispiaciuti, ma la quantità di denaro richiesta non è presente nel conto"));
+        cout << "Siamo dispiaciuti, ma la quantita' di denaro richiesta non e' presente nel conto" << endl;
+        return false;
     }
 }
 
