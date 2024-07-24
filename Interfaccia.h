@@ -8,6 +8,7 @@
 #include <iostream>
 #include <sstream>
 #include <limits>
+#include <cstring>
 
 #include "Utente.h"
 
@@ -26,6 +27,12 @@ public:
     //codici di utilità per non fare codice duplicato
 
     void stampaScelte();
+
+    void interfacciaAreaPersonale();
+
+    void interfacciaAreaConto();
+
+    void stampaScelteConto();
 
     string controlloInputStringhe(int numeroMinimoCaratteri, int numeroMassimoCaratteri);
 

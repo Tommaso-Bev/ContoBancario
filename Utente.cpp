@@ -3,7 +3,7 @@
 //
 
 #include "Utente.h"
-
+#include <sstream>
 #include <utility>
 
 Utente::Utente(string nome, string cognome, DataDiNascita data) : nome(std::move(nome)),
@@ -19,10 +19,13 @@ Utente::~Utente() {
 void Utente::deposita(int contoAttuale, int valoreDeposito, const string &descrizione) {
     if (valoreDeposito > 0)
         contiCorrente[contoAttuale]->depositare(valoreDeposito, descrizione);
+    salvaInformazioniUtente();
 }
 
 bool Utente::ritira(int contoAttuale, int quantitaRitiro, const string &descrizione) {
-    return contiCorrente[contoAttuale]->ritirare(quantitaRitiro, descrizione);
+    bool val = contiCorrente[contoAttuale]->ritirare(quantitaRitiro, descrizione);
+    salvaInformazioniUtente();
+    return val;
 }
 
 bool
@@ -30,11 +33,26 @@ Utente::trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasfer
     bool t = ritira(contoAttuale, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
     if (t)
         deposita(contoDestinazione, quantitaTrasferimento, "TRASFERIMENTO: " + descrizione);
+    salvaInformazioniUtente();
     return t;
 }
 
 void Utente::creaConto(const string &nomeConto) {
     contiCorrente.push_back(std::make_unique<Conto>(nomeConto));
+    salvaInformazioniUtente();
+}
+
+bool Utente::chiudiConto(const int &nConto) {
+    if (contiCorrente.at(nConto)->getSaldo() == 0) {
+        contiCorrente.erase(contiCorrente.begin() + nConto);
+        salvaInformazioniUtente();
+        return true;
+    } else {
+        //TODO dire anche quanti sono i soldi mancanti
+        cout << "Nel saldo ci sono ancora dei soldi, trasferiscili ad un altro conto e poi elimina" << endl;
+        return false;
+    }
+
 }
 
 void Utente::salvaInformazioniUtente() {
@@ -65,6 +83,7 @@ void Utente::salvaInformazioniUtente() {
             informazioni << "di: " << transazioniRitiro.getValoreTransazione() << " euro" << endl;
             informazioni << "Motivazioni: " << transazioniRitiro.getDescrizione() << endl;
         }
+        informazioni << "*****FINE CONTO N:" << numeroConto << "*****" << endl;
         numeroConto++;
     }
 }
@@ -80,6 +99,7 @@ void Utente::leggiInfoUtente() {
     }
 
 }
+
 
 const string &Utente::getNome() const {
     return nome;
@@ -101,6 +121,29 @@ unique_ptr<Conto> &Utente::getConto(int numeroConto) {
 
 unsigned long long Utente::getNumeroConti() {
     return contiCorrente.size();
+}
+
+void Utente::leggiInfoUtenteSpecifico(int accountNumber) {
+    std::ifstream file("informazioni.txt");
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string accountHeader = "*****CONTO N: " + std::to_string(accountNumber + 1) + "*****";
+    size_t startPos = buffer.str().find(accountHeader);
+
+    if (startPos == std::string::npos) {
+        std::cout << "Conto numero " << accountNumber + 1 << " non trovato." << std::endl;
+        return;
+    }
+
+    size_t endPos = buffer.str().find(
+            "*****FINE CONTO N:" + std::to_string(accountNumber + 1) + "*****" + std::to_string(accountNumber + 1) +
+            "*****", startPos + accountHeader.length());
+    if (endPos == std::string::npos) {
+        endPos = buffer.str().length();
+    }
+
+    std::string accountInfo = buffer.str().substr(startPos, endPos - startPos);
+    std::cout << accountInfo << std::endl;
 }
 
 

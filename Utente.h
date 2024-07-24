@@ -46,9 +46,13 @@ public:
 
     void creaConto(const string &nomeConto);
 
+    bool chiudiConto(const int &nConto);
+
     void salvaInformazioniUtente();
 
     void leggiInfoUtente();
+
+    void leggiInfoUtenteSpecifico(int numero);
 
     //metodi getter per nome e cognome (utilizzati nell'interfaccia)
 
