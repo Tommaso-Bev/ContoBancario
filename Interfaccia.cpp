@@ -29,7 +29,6 @@ void Interfaccia::creareConto() {
 
 
 void Interfaccia::stampaScelte() {
-    cout << "BENVENUTO: " << utente->getNome() << " " << utente->getCognome() << endl;
     cout << "premere [1] per selezionare un conto" << endl;
     cout << "premere [2] per creare un conto" << endl;
     cout << "premere [3] per mostrare le proprie informazioni" << endl;
@@ -46,6 +45,7 @@ void Interfaccia::stampaScelteConto() {
 }
 
 void Interfaccia::interfacciaAreaPersonale() {
+    cout << "BENVENUTO: " << utente->getNome() << " " << utente->getCognome() << endl;
     cout << "Lei in questo momento si trova nell'area personale, le azioni che puo' svolgere sono:" << endl;
     bool loop = true;
     int numeroScelte = 4;
@@ -58,13 +58,10 @@ void Interfaccia::interfacciaAreaPersonale() {
         if (iss >> scelta and scelta <= numeroScelte and scelta > 0) {
             switch (scelta) {
                 case 1: {
-                    cout << "hai deciso di selezionare un conto, questi sono quelli che ha disponibili:" << endl;
-                    //TODO qui mettere una lista con i nomi dei conti e i relativi numeri con cui potervi accedere
                     interfacciaAreaConto();
                     break;
                 }
                 case 2: {
-                    cout << "hai deciso di creare un conto:" << endl;
                     creareConto();
                     break;
                 }
@@ -79,6 +76,9 @@ void Interfaccia::interfacciaAreaPersonale() {
                     cout << "Arrivederci" << endl;
                 }
             }
+        } else {
+            cout << "Sono accettati solo numeri e minori o uguali a " << numeroScelte << "!!!" << endl;
+            std::cin.clear();
         }
     }
 
@@ -88,7 +88,11 @@ void Interfaccia::interfacciaAreaConto() {
     bool loop = true;
     int numScelte = 6;
     while (loop) {
-        cout << "A questo punto selezionare il conto in cui fare transazioni:";
+        cout << "Selezionare il conto in cui fare transazioni" << endl;
+        cout << "CONTI DISPONIBILI:" << endl;
+        for (int i = 0; i < utente->getNumeroConti(); ++i) {
+            cout << i << ": " << utente->getConto(i)->getName() << endl;
+        }
         int numeroConto = controlloInputConto();
         stampaScelteConto();
         std::string input;
@@ -127,6 +131,10 @@ void Interfaccia::interfacciaAreaConto() {
                 case 4: {
                     if (utente->getNumeroConti() > 1) {
                         cout << "selezionare a quale conto trasferire il denaro: " << endl;
+                        for (int i = 0; i < utente->getNumeroConti(); ++i) {
+                            if (i != numeroConto)
+                                cout << i << ": " << utente->getConto(i)->getName() << endl;
+                        }
                         int destinazione = numeroConto;
                         while (destinazione == numeroConto) {
                             destinazione = controlloInputConto();
@@ -159,7 +167,7 @@ void Interfaccia::interfacciaAreaConto() {
                 }
             }
         } else {
-            cout << "Sono accettati solo numeri minori di " << numScelte << "!!!" << endl;
+            cout << "Sono accettati solo numeri e minori o uguali a " << numScelte << "!!!" << endl;
             std::cin.clear();
         }
     }

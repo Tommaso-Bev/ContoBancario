@@ -48,8 +48,8 @@ bool Utente::chiudiConto(const int &nConto) {
         salvaInformazioniUtente();
         return true;
     } else {
-        //TODO dire anche quanti sono i soldi mancanti
-        cout << "Nel saldo ci sono ancora dei soldi, trasferiscili ad un altro conto e poi elimina" << endl;
+        cout << "Nel saldo ci sono ancora " << contiCorrente.at(nConto)->getSaldo()
+             << " euro, trasferiscili ad un altro conto e poi elimina" << endl;
         return false;
     }
 
