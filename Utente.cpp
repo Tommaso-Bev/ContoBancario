@@ -37,12 +37,12 @@ Utente::trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasfer
     return t;
 }
 
-void Utente::creaConto(const string &nomeConto) {
+void Utente::creaConto(const string nomeConto) {
     contiCorrente.push_back(std::make_unique<Conto>(nomeConto));
     salvaInformazioniUtente();
 }
 
-bool Utente::chiudiConto(const int &nConto) {
+bool Utente::chiudiConto(const int nConto) {
     if (contiCorrente.at(nConto)->getSaldo() == 0) {
         contiCorrente.erase(contiCorrente.begin() + nConto);
         salvaInformazioniUtente();
@@ -55,7 +55,7 @@ bool Utente::chiudiConto(const int &nConto) {
 
 }
 
-void Utente::salvaInformazioniUtente() {
+const void Utente::salvaInformazioniUtente() {
     ofstream informazioni("informazioni.txt");
     informazioni << "INFORMAZIONI RELATIVE ALL'UTENTE: " << nome << " " << cognome << endl;
     informazioni << "NOME: " << nome << endl;
@@ -130,7 +130,7 @@ void Utente::leggiInfoUtenteSpecifico(int accountNumber) {
     std::string accountHeader = "*****CONTO N: " + std::to_string(accountNumber + 1) + "*****";
     size_t startPos = buffer.str().find(accountHeader);
 
-    if (startPos == std::string::npos) {
+    if (startPos == std::string::npos) { //nessuna posizione valida
         std::cout << "Conto numero " << accountNumber + 1 << " non trovato." << std::endl;
         return;
     }

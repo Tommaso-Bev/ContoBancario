@@ -31,6 +31,13 @@ public:
 
     vector<Transazione> transazioniRitirate();
 
+    //aggiunte
+    vector<Transazione> cercaPerData(string data);
+
+    int getNumeroTransazioni();
+
+    void aggiungiTransazioneDiVecchiaData(Transazione t); //serve unicamente per il testing del cercaPerData
+
 private:
     string name;
     int saldo;

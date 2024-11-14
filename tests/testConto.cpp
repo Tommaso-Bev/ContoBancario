@@ -52,3 +52,19 @@ TEST_F(testingConto, testTransazioniRitirate) {
     vector<Transazione> v = c->transazioniRitirate();
     ASSERT_EQ(1, v.size());
 }
+
+
+//test aggiunti al conto
+TEST_F(testingConto, testCercaPerData) {
+    c->aggiungiTransazioneDiVecchiaData(Transazione(10, "20231010", make_pair(13, 50), "test", "ritiro"));
+    c->aggiungiTransazioneDiVecchiaData(Transazione(10, "20221010", make_pair(13, 50), "test", "deposito"));
+    c->aggiungiTransazioneDiVecchiaData(Transazione(10, "20241010", make_pair(13, 50), "test", "ritiro"));
+    vector<Transazione> v = c->cercaPerData("20241010");
+    ASSERT_EQ(1, v.size());
+}
+
+TEST_F(testingConto, testNumeroTransazioni) {
+    c->depositare(100, "test deposito");
+    c->ritirare(100, "test ritiro");
+    ASSERT_EQ(2, c->getNumeroTransazioni());
+}

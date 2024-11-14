@@ -44,11 +44,11 @@ public:
 
     bool trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasferimento, const string &descrizione);
 
-    void creaConto(const string &nomeConto);
+    void creaConto(const string nomeConto);
 
-    bool chiudiConto(const int &nConto);
+    bool chiudiConto(const int nConto);
 
-    void salvaInformazioniUtente();
+    const void salvaInformazioniUtente();
 
     void leggiInfoUtente();
 
