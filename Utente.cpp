@@ -17,15 +17,35 @@ Utente::~Utente() {
 }
 
 void Utente::deposita(int contoAttuale, int valoreDeposito, const string &descrizione) {
-    if (valoreDeposito > 0)
-        contiCorrente[contoAttuale]->depositare(valoreDeposito, descrizione);
-    salvaInformazioniUtente();
+    try {
+        if (valoreDeposito > 0)
+            contiCorrente[contoAttuale]->depositare(valoreDeposito, descrizione);
+        else
+            throw runtime_error("valore depositato impossibile da immettere");
+        salvaInformazioniUtente();
+    }
+    catch (exception &e) {
+        cout << e.what() << endl;
+        salvaInformazioniUtente();
+    }
+
 }
 
 bool Utente::ritira(int contoAttuale, int quantitaRitiro, const string &descrizione) {
-    bool val = contiCorrente[contoAttuale]->ritirare(quantitaRitiro, descrizione);
-    salvaInformazioniUtente();
-    return val;
+    try {
+        if (contiCorrente[contoAttuale]->getSaldo() >= quantitaRitiro) {
+            bool val = contiCorrente[contoAttuale]->ritirare(quantitaRitiro, descrizione);
+            salvaInformazioniUtente();
+            return val;
+        } else
+            throw runtime_error("quantita' richiesta non presente nel conto");
+    }
+    catch (exception &e) {
+        cout << e.what() << endl;
+        salvaInformazioniUtente();
+        return false;
+    }
+
 }
 
 bool

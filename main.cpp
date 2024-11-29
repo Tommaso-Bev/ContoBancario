@@ -15,6 +15,9 @@ int main() {
     return RUN_ALL_TESTS();
      */
 
+    testing::InitGoogleTest();
+    return RUN_ALL_TESTS();
+
     Conto c("uno", 10);
     c.depositare(20, "sis");
     c.ritirare(10, "sis");

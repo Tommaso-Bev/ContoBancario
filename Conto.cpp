@@ -33,7 +33,7 @@ void Conto::depositare(int valoreDeposito, const string &descrizione) {
             throw runtime_error("non si puo' depositare una quantita' di denaro negativa");
     }
     catch (const exception &e) {
-        cerr << e.what() << endl;
+        cout << e.what() << endl;
     }
 }
 
@@ -60,7 +60,7 @@ bool Conto::ritirare(int quantitaRitiro, const string &descrizione) {
 
     }
     catch (exception &e) {
-        cerr << e.what() << endl;
+        cout << e.what() << endl;
         return false;
     }
 
