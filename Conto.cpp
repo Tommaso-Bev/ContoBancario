@@ -17,54 +17,43 @@ int Conto::getSaldo() const {
 }
 
 void Conto::depositare(int valoreDeposito, const string &descrizione) {
-    try {
-        if (valoreDeposito > 0) {
-            saldo += valoreDeposito;
+    if (valoreDeposito > 0) {
+        saldo += valoreDeposito;
+        time_t now = time(nullptr);
+        tm *localTime = localtime(&now);
+        string data =
+                to_string(localTime->tm_year + 1900) + to_string(localTime->tm_mon + 1) +
+                to_string(localTime->tm_mday);
+
+        transazioniPassate.push_back(
+                make_unique<Transazione>(valoreDeposito, data, make_pair(localTime->tm_hour, localTime->tm_min),
+                                         descrizione, "deposito"));
+    } else
+        throw runtime_error("non si puo' depositare una quantita' di denaro negativa");
+}
+
+bool Conto::ritirare(int quantitaRitiro, const string &descrizione) {
+    if (quantitaRitiro > 0) {
+        if (saldo >= quantitaRitiro) {
+            saldo -= quantitaRitiro;
             time_t now = time(nullptr);
             tm *localTime = localtime(&now);
             string data =
                     to_string(localTime->tm_year + 1900) + to_string(localTime->tm_mon + 1) +
                     to_string(localTime->tm_mday);
-
             transazioniPassate.push_back(
-                    make_unique<Transazione>(valoreDeposito, data, make_pair(localTime->tm_hour, localTime->tm_min),
-                                             descrizione, "deposito"));
-        } else
-            throw runtime_error("non si puo' depositare una quantita' di denaro negativa");
-    }
-    catch (const exception &e) {
-        cout << e.what() << endl;
-    }
-}
-
-bool Conto::ritirare(int quantitaRitiro, const string &descrizione) {
-    try {
-        if (quantitaRitiro > 0) {
-            if (saldo >= quantitaRitiro) {
-                saldo -= quantitaRitiro;
-                time_t now = time(nullptr);
-                tm *localTime = localtime(&now);
-                string data =
-                        to_string(localTime->tm_year + 1900) + to_string(localTime->tm_mon + 1) +
-                        to_string(localTime->tm_mday);
-                transazioniPassate.push_back(
-                        make_unique<Transazione>(quantitaRitiro, data, make_pair(localTime->tm_hour, localTime->tm_min),
-                                                 descrizione, "ritiro"));
-                return true;
-            } else {
-                throw runtime_error("Siamo dispiaciuti, ma la quantita' di denaro richiesta non e' presente nel conto");
-            }
+                    make_unique<Transazione>(quantitaRitiro, data, make_pair(localTime->tm_hour, localTime->tm_min),
+                                             descrizione, "ritiro"));
+            return true;
         } else {
-            throw runtime_error("non si puo' ritirare una quantita' di denaro negativa");
+            throw runtime_error("Siamo dispiaciuti, ma la quantita' di denaro richiesta non e' presente nel conto");
         }
-
-    }
-    catch (exception &e) {
-        cout << e.what() << endl;
-        return false;
+    } else {
+        throw runtime_error("non si puo' ritirare una quantita' di denaro negativa");
     }
 
 }
+
 
 vector<Transazione> Conto::transazioniDepositate() {
     std::vector<Transazione> transazioniDeposito;

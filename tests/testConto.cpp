@@ -23,9 +23,10 @@ TEST_F(testingConto, testDepositoValido) {
     ASSERT_EQ(100, c->getSaldo());
 }
 
+//test modificato per il blocco try catch
+
 TEST_F(testingConto, testDepositoInvalido) {
-    c->depositare(-100, "test deposito");
-    ASSERT_EQ(0, c->getSaldo());
+    ASSERT_THROW(c->depositare(-100, "test deposito"), runtime_error);
 }
 
 TEST_F(testingConto, testRitiroValido) {
@@ -34,10 +35,11 @@ TEST_F(testingConto, testRitiroValido) {
     ASSERT_EQ(0, c->getSaldo());
 }
 
+//test modificato per il blocco try catch
+
 TEST_F(testingConto, testRitiroInvalido) {
     c->depositare(100, "test deposito");
-    c->ritirare(101, "test ritiro");
-    ASSERT_EQ(100, c->getSaldo());
+    ASSERT_THROW(c->ritirare(101, "test ritiro"), runtime_error);
 }
 
 TEST_F(testingConto, testTransazioniDepositate) {
