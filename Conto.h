@@ -27,14 +27,14 @@ public:
 
     int getSaldo() const;
 
-    vector<Transazione> transazioniDepositate();
+    vector<Transazione> transazioniDepositate() const;
 
-    vector<Transazione> transazioniRitirate();
+    vector<Transazione> transazioniRitirate() const;
 
     //aggiunte
-    vector<Transazione> cercaPerData(string data);
+    vector<Transazione> cercaPerData(const string &data) const;
 
-    int getNumeroTransazioni();
+    int getNumeroTransazioni() const;
 
     void aggiungiTransazioneDiVecchiaData(Transazione t); //serve unicamente per il testing del cercaPerData
 

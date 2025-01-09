@@ -49,12 +49,12 @@ Utente::trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasfer
     return t;
 }
 
-void Utente::creaConto(const string nomeConto) {
+void Utente::creaConto(const string &nomeConto) {
     contiCorrente.push_back(std::make_unique<Conto>(nomeConto));
     salvaInformazioniUtente();
 }
 
-bool Utente::chiudiConto(const int nConto) {
+bool Utente::chiudiConto(int nConto) {
     if (contiCorrente.at(nConto)->getSaldo() == 0) {
         contiCorrente.erase(contiCorrente.begin() + nConto);
         salvaInformazioniUtente();
@@ -67,7 +67,7 @@ bool Utente::chiudiConto(const int nConto) {
 
 }
 
-const void Utente::salvaInformazioniUtente() {
+void Utente::salvaInformazioniUtente() {
     ofstream informazioni("informazioni.txt");
     informazioni << "INFORMAZIONI RELATIVE ALL'UTENTE: " << nome << " " << cognome << endl;
     informazioni << "NOME: " << nome << endl;
@@ -100,7 +100,7 @@ const void Utente::salvaInformazioniUtente() {
     }
 }
 
-void Utente::leggiInfoUtente() {
+void Utente::leggiInfoUtente() const {
     ifstream informazioni("informazioni.txt");
     string info;
     if (informazioni.is_open()) {
@@ -131,11 +131,11 @@ unique_ptr<Conto> &Utente::getConto(int numeroConto) {
     }
 }
 
-unsigned long long Utente::getNumeroConti() {
+unsigned long long Utente::getNumeroConti() const {
     return contiCorrente.size();
 }
 
-void Utente::leggiInfoUtenteSpecifico(int accountNumber) {
+void Utente::leggiInfoUtenteSpecifico(int accountNumber) const {
     std::ifstream file("informazioni.txt");
     std::stringstream buffer;
     buffer << file.rdbuf();

@@ -55,7 +55,7 @@ bool Conto::ritirare(int quantitaRitiro, const string &descrizione) {
 }
 
 
-vector<Transazione> Conto::transazioniDepositate() {
+vector<Transazione> Conto::transazioniDepositate() const {
     std::vector<Transazione> transazioniDeposito;
     for (const auto &it: transazioniPassate) {
         if (it->getTipoTransazione() == "deposito")
@@ -64,7 +64,7 @@ vector<Transazione> Conto::transazioniDepositate() {
     return transazioniDeposito;
 }
 
-vector<Transazione> Conto::transazioniRitirate() {
+vector<Transazione> Conto::transazioniRitirate() const {
     std::vector<Transazione> transazioniRitiro;
     for (const auto &it: transazioniPassate) {
         if (it->getTipoTransazione() == "ritiro")
@@ -73,7 +73,7 @@ vector<Transazione> Conto::transazioniRitirate() {
     return transazioniRitiro;
 }
 
-vector<Transazione> Conto::cercaPerData(string data) {
+vector<Transazione> Conto::cercaPerData(const string &data) const {
     std::vector<Transazione> transazioniInData;
     for (const auto &it: transazioniPassate) {
         if (it->getData() == data)
@@ -88,7 +88,7 @@ void Conto::aggiungiTransazioneDiVecchiaData(Transazione t) {
     transazioniPassate.push_back(make_unique<Transazione>(t));
 }
 
-int Conto::getNumeroTransazioni() {
+int Conto::getNumeroTransazioni() const {
     int nTransazioni = 0;
     for (const auto &it: transazioniPassate) {
         nTransazioni++;

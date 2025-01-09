@@ -44,15 +44,15 @@ public:
 
     bool trasferisci(int contoAttuale, int contoDestinazione, int quantitaTrasferimento, const string &descrizione);
 
-    void creaConto(const string nomeConto);
+    void creaConto(const string &nomeConto);
 
-    bool chiudiConto(const int nConto);
+    bool chiudiConto(int nConto);
 
-    const void salvaInformazioniUtente();
+    void salvaInformazioniUtente();
 
-    void leggiInfoUtente();
+    void leggiInfoUtente() const;
 
-    void leggiInfoUtenteSpecifico(int numero);
+    void leggiInfoUtenteSpecifico(int numero) const;
 
     //metodi getter per nome e cognome (utilizzati nell'interfaccia)
 
@@ -62,7 +62,7 @@ public:
 
     unique_ptr<Conto> &getConto(int numeroConto);
 
-    unsigned long long getNumeroConti();
+    unsigned long long getNumeroConti() const;
 
 private:
     string nome;
